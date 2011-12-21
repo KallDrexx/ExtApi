@@ -33,8 +33,8 @@ namespace ExtApi.Tester
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            EditedParameter.Name = txtName.Text;
-            EditedParameter.UnencodedValue = txtParamValue.Text;
+            EditedParameter.Name = txtName.Text.Trim();
+            EditedParameter.UnencodedValue = txtParamValue.Text.Trim();
 
             DialogResult = DialogResult.OK;
             Close();
