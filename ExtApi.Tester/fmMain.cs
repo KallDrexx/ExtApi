@@ -65,6 +65,10 @@ namespace ExtApi.Tester
             ExtApiCallResult result = null;
             var apiRunner = new ApiRunner();
 
+            // Reset the GUI
+            lblStatusCode.Text = string.Empty;
+            txtResults.Text = string.Empty;
+
             // Create parameter list
             var paramList = new List<ApiParameter>();
             foreach (var item in lstParameters.Items)
@@ -81,13 +85,23 @@ namespace ExtApi.Tester
 
                 // Call the api
                 apiRunner.OAuthTokenManager = tokenManager;
-                result = apiRunner.ExecuteOAuthApiCall(txtApiUrl.Text, paramList, txtAccessToken.Text);
+
+                try { result = apiRunner.ExecuteOAuthApiCall(txtApiUrl.Text, paramList, txtAccessToken.Text); }
+                catch (UriFormatException ex)
+                {
+                    HandleApiCallException(ex);
+                    return;
+                }
             }
 
             else
             {
-                MessageBox.Show("Non-OAuth not supported yet");
-                return;
+                try { result = apiRunner.ExecuteApiCall(txtApiUrl.Text, paramList); }
+                catch (UriFormatException ex)
+                {
+                    HandleApiCallException(ex);
+                    return;
+                }
             }
 
             // Show the results
@@ -97,6 +111,16 @@ namespace ExtApi.Tester
                 txtResults.Text = result.XmlResponse.ToString();
             else
                 txtResults.Text = new StreamReader(result.ResponseStream).ReadToEnd();
+        }
+
+        private void HandleApiCallException(Exception ex)
+        {
+            MessageBox.Show(
+                string.Format("An exception occurred while executing the api call {0}{0}{1}:{0}{2}",
+                    Environment.NewLine,
+                    ex.GetType().ToString(),
+                    ex.Message),
+                "Error Performing Api Call");
         }
     }
 }

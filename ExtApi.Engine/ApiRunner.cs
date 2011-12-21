@@ -65,6 +65,38 @@ namespace ExtApi.Engine
         }
 
         /// <summary>
+        /// Performs an api call on the specified URL 
+        /// </summary>
+        /// <param name="apiUrl"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        public ExtApiCallResult ExecuteApiCall(string apiUrl, IList<ApiParameter> parameters)
+        {
+            var request = HttpWebRequest.Create(BuildGetUrl(apiUrl, parameters));
+            request.Method = WebRequestMethods.Http.Get;
+
+            // Perform the web request
+            WebResponse response;
+            try { response = request.GetResponse(); }
+            catch (WebException ex)
+            {
+                var httpResponse = (HttpWebResponse)ex.Response;
+
+                return new ExtApiCallResult
+                {
+                    StatusCode = httpResponse.StatusCode,
+                    ResponseStream = httpResponse.GetResponseStream()
+                };
+            }
+
+            return new ExtApiCallResult
+            {
+                StatusCode = HttpStatusCode.OK,
+                ResponseStream = response.GetResponseStream()
+            };
+        }
+
+        /// <summary>
         /// Builds a GET URL based on the specified api URL and the passed in parameters
         /// </summary>
         /// <param name="apiUrl"></param>
