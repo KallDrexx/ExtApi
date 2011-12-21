@@ -48,27 +48,7 @@ namespace ExtApi.Engine
             try { response = request.GetResponse(); }
             catch (WebException ex)
             {
-                var httpResponse = (HttpWebResponse)ex.Response;
-
-                if (httpResponse != null)
-                {
-                    return new ExtApiCallResult
-                    {
-                        StatusCode = httpResponse.StatusCode,
-                        ResponseStream = httpResponse.GetResponseStream()
-                    };
-                }
-
-                // else
-                var stream = new MemoryStream();
-                var msg = System.Text.Encoding.ASCII.GetBytes(string.Format("{0}: {1}", ex.GetType().ToString(), ex.Message));
-                stream.Write(msg, 0, msg.Length);
-
-                return new ExtApiCallResult
-                {
-                    StatusCode = HttpStatusCode.NoContent,
-                    ResponseStream = stream
-                };
+                return HandleWebException(ex);
             }
 
             // Call was successful
@@ -95,33 +75,38 @@ namespace ExtApi.Engine
             try { response = request.GetResponse(); }
             catch (WebException ex)
             {
-                var httpResponse = (HttpWebResponse)ex.Response;
-
-                if (httpResponse != null)
-                {
-                    return new ExtApiCallResult
-                    {
-                        StatusCode = httpResponse.StatusCode,
-                        ResponseStream = httpResponse.GetResponseStream()
-                    };
-                }
-
-                // else
-                var stream = new MemoryStream();
-                var msg = System.Text.Encoding.ASCII.GetBytes(string.Format("{0}: {1}", ex.GetType().ToString(), ex.Message));
-                stream.Write(msg, 0, msg.Length);
-
-                return new ExtApiCallResult
-                {
-                    StatusCode = HttpStatusCode.NoContent,
-                    ResponseStream = stream
-                };
+                return HandleWebException(ex);
             }
 
             return new ExtApiCallResult
             {
                 StatusCode = HttpStatusCode.OK,
                 ResponseStream = response.GetResponseStream()
+            };
+        }
+
+        private ExtApiCallResult HandleWebException(WebException ex)
+        {
+            var httpResponse = (HttpWebResponse)ex.Response;
+
+            if (httpResponse != null)
+            {
+                return new ExtApiCallResult
+                {
+                    StatusCode = httpResponse.StatusCode,
+                    ResponseStream = httpResponse.GetResponseStream()
+                };
+            }
+
+            // else
+            var stream = new MemoryStream();
+            var msg = System.Text.Encoding.ASCII.GetBytes(string.Format("{0}: {1}", ex.GetType().ToString(), ex.Message));
+            stream.Write(msg, 0, msg.Length);
+
+            return new ExtApiCallResult
+            {
+                StatusCode = HttpStatusCode.NoContent,
+                ResponseStream = stream
             };
         }
 
