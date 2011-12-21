@@ -75,6 +75,11 @@ namespace ExtApi.Tester
 
         private void btnExecute_Click(object sender, EventArgs e)
         {
+            // Reset the GUI
+            lblStatusCode.Text = string.Empty;
+            txtResults.Text = string.Empty;
+            txtBuiltUrl.Text = string.Empty;
+
             // Create parameter list
             var paramList = new List<ApiParameter>();
             foreach (var item in lstParameters.Items)
@@ -96,10 +101,6 @@ namespace ExtApi.Tester
 
             ExtApiCallResult result = null;
             var apiRunner = new ApiRunner();
-
-            // Reset the GUI
-            lblStatusCode.Text = string.Empty;
-            txtResults.Text = string.Empty;
 
             if (chkIncludeOAuth.Checked)
             {
@@ -132,6 +133,7 @@ namespace ExtApi.Tester
 
             // Show the results
             lblStatusCode.Text = result.StatusCode.ToString();
+            txtBuiltUrl.Text = result.FinalUrl;
 
             if (result.XmlResponse != null)
                 txtResults.Text = result.XmlResponse.ToString();

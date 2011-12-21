@@ -55,7 +55,8 @@ namespace ExtApi.Engine
             return new ExtApiCallResult
             {
                 StatusCode = HttpStatusCode.OK,
-                ResponseStream = response.GetResponseStream()
+                ResponseStream = response.GetResponseStream(),
+                FinalUrl = response.ResponseUri.AbsoluteUri
             };
         }
 
@@ -81,7 +82,8 @@ namespace ExtApi.Engine
             return new ExtApiCallResult
             {
                 StatusCode = HttpStatusCode.OK,
-                ResponseStream = response.GetResponseStream()
+                ResponseStream = response.GetResponseStream(),
+                FinalUrl = response.ResponseUri.AbsoluteUri
             };
         }
 
@@ -94,7 +96,8 @@ namespace ExtApi.Engine
                 return new ExtApiCallResult
                 {
                     StatusCode = httpResponse.StatusCode,
-                    ResponseStream = httpResponse.GetResponseStream()
+                    ResponseStream = httpResponse.GetResponseStream(),
+                    FinalUrl = httpResponse.ResponseUri.AbsoluteUri
                 };
             }
 
@@ -106,7 +109,8 @@ namespace ExtApi.Engine
             return new ExtApiCallResult
             {
                 StatusCode = HttpStatusCode.NoContent,
-                ResponseStream = stream
+                ResponseStream = stream,
+                FinalUrl = httpResponse.ResponseUri.AbsoluteUri
             };
         }
 

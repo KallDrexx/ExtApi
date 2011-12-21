@@ -59,5 +59,10 @@ namespace ExtApi.Engine.Data
                 }
             }
         }
+
+        /// <summary>
+        /// Gets or sets the URL that was built after all parameters were added
+        /// </summary>
+        public string FinalUrl { get; set; }
     }
 }

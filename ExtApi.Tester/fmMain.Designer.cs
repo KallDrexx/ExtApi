@@ -49,6 +49,8 @@
             this.label7 = new System.Windows.Forms.Label();
             this.btnEditParam = new System.Windows.Forms.Button();
             this.lblStatusCode = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.txtBuiltUrl = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -207,13 +209,13 @@
             this.txtResults.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtResults.Location = new System.Drawing.Point(12, 286);
+            this.txtResults.Location = new System.Drawing.Point(12, 315);
             this.txtResults.Multiline = true;
             this.txtResults.Name = "txtResults";
             this.txtResults.ReadOnly = true;
             this.txtResults.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtResults.Size = new System.Drawing.Size(723, 194);
-            this.txtResults.TabIndex = 12;
+            this.txtResults.Size = new System.Drawing.Size(723, 165);
+            this.txtResults.TabIndex = 13;
             // 
             // btnExecute
             // 
@@ -228,7 +230,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(12, 270);
+            this.label7.Location = new System.Drawing.Point(29, 273);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(40, 13);
             this.label7.TabIndex = 9;
@@ -247,16 +249,35 @@
             // lblStatusCode
             // 
             this.lblStatusCode.AutoSize = true;
-            this.lblStatusCode.Location = new System.Drawing.Point(58, 270);
+            this.lblStatusCode.Location = new System.Drawing.Point(75, 273);
             this.lblStatusCode.Name = "lblStatusCode";
             this.lblStatusCode.Size = new System.Drawing.Size(0, 13);
             this.lblStatusCode.TabIndex = 13;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(12, 292);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(57, 13);
+            this.label8.TabIndex = 14;
+            this.label8.Text = "Final URL:";
+            // 
+            // txtBuiltUrl
+            // 
+            this.txtBuiltUrl.Location = new System.Drawing.Point(75, 289);
+            this.txtBuiltUrl.Name = "txtBuiltUrl";
+            this.txtBuiltUrl.ReadOnly = true;
+            this.txtBuiltUrl.Size = new System.Drawing.Size(661, 20);
+            this.txtBuiltUrl.TabIndex = 12;
             // 
             // fmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(747, 492);
+            this.Controls.Add(this.txtBuiltUrl);
+            this.Controls.Add(this.label8);
             this.Controls.Add(this.lblStatusCode);
             this.Controls.Add(this.btnEditParam);
             this.Controls.Add(this.label7);
@@ -302,5 +323,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button btnEditParam;
         private System.Windows.Forms.Label lblStatusCode;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox txtBuiltUrl;
     }
 }
