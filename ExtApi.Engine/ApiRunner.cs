@@ -8,6 +8,7 @@ using DotNetOpenAuth.OAuth;
 using DotNetOpenAuth.Messaging;
 using System.Web;
 using System.Net;
+using System.IO;
 
 namespace ExtApi.Engine
 {
@@ -49,10 +50,24 @@ namespace ExtApi.Engine
             {
                 var httpResponse = (HttpWebResponse)ex.Response;
 
+                if (httpResponse != null)
+                {
+                    return new ExtApiCallResult
+                    {
+                        StatusCode = httpResponse.StatusCode,
+                        ResponseStream = httpResponse.GetResponseStream()
+                    };
+                }
+
+                // else
+                var stream = new MemoryStream();
+                var msg = System.Text.Encoding.ASCII.GetBytes(string.Format("{0}: {1}", ex.GetType().ToString(), ex.Message));
+                stream.Write(msg, 0, msg.Length);
+
                 return new ExtApiCallResult
                 {
-                    StatusCode = httpResponse.StatusCode,
-                    ResponseStream = httpResponse.GetResponseStream()
+                    StatusCode = HttpStatusCode.NoContent,
+                    ResponseStream = stream
                 };
             }
 
@@ -82,10 +97,24 @@ namespace ExtApi.Engine
             {
                 var httpResponse = (HttpWebResponse)ex.Response;
 
+                if (httpResponse != null)
+                {
+                    return new ExtApiCallResult
+                    {
+                        StatusCode = httpResponse.StatusCode,
+                        ResponseStream = httpResponse.GetResponseStream()
+                    };
+                }
+
+                // else
+                var stream = new MemoryStream();
+                var msg = System.Text.Encoding.ASCII.GetBytes(string.Format("{0}: {1}", ex.GetType().ToString(), ex.Message));
+                stream.Write(msg, 0, msg.Length);
+
                 return new ExtApiCallResult
                 {
-                    StatusCode = httpResponse.StatusCode,
-                    ResponseStream = httpResponse.GetResponseStream()
+                    StatusCode = HttpStatusCode.NoContent,
+                    ResponseStream = stream
                 };
             }
 
