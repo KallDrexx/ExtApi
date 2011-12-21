@@ -6,6 +6,7 @@ using System.Web;
 
 namespace ExtApi.Engine.Data
 {
+    [Serializable]
     public class ApiParameter
     {
         /// <summary>

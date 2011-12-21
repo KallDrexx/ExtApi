@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using ExtApi.Engine.Data;
 using ExtApi.Engine;
 using System.IO;
+using ExtApi.Tester.Properties;
 
 namespace ExtApi.Tester
 {
@@ -21,7 +22,12 @@ namespace ExtApi.Tester
 
         private void fmMain_Load(object sender, EventArgs e)
         {
-
+            var settings = Settings.Default;
+            txtAccessToken.Text = settings.LastOAuthAccessToken;
+            txtApiUrl.Text = settings.LastApiUrl;
+            txtConsumerKey.Text = settings.LastOAuthConsumerKey;
+            txtConsumerSecret.Text = settings.LastOAuthConsumerSecret;
+            txtTokenSecret.Text = settings.LastOAuthTokenSecret;
         }
 
         private void btnAddParameter_Click(object sender, EventArgs e)
@@ -62,18 +68,27 @@ namespace ExtApi.Tester
 
         private void btnExecute_Click(object sender, EventArgs e)
         {
+            // Create parameter list
+            var paramList = new List<ApiParameter>();
+            foreach (var item in lstParameters.Items)
+                if (item is ApiParameter)
+                    paramList.Add((ApiParameter)item);
+
+            // Save used values for automatic population next time
+            var settings = Settings.Default;
+            settings.LastApiUrl = txtApiUrl.Text;
+            settings.LastOAuthAccessToken = txtAccessToken.Text;
+            settings.LastOAuthConsumerKey = txtConsumerKey.Text;
+            settings.LastOAuthConsumerSecret = txtConsumerSecret.Text;
+            settings.LastOAuthTokenSecret = txtTokenSecret.Text;
+            settings.Save();
+
             ExtApiCallResult result = null;
             var apiRunner = new ApiRunner();
 
             // Reset the GUI
             lblStatusCode.Text = string.Empty;
             txtResults.Text = string.Empty;
-
-            // Create parameter list
-            var paramList = new List<ApiParameter>();
-            foreach (var item in lstParameters.Items)
-                if (item is ApiParameter)
-                    paramList.Add((ApiParameter)item);
 
             if (chkIncludeOAuth.Checked)
             {
