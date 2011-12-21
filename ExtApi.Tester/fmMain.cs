@@ -22,12 +22,19 @@ namespace ExtApi.Tester
 
         private void fmMain_Load(object sender, EventArgs e)
         {
-            var settings = Settings.Default;
-            txtAccessToken.Text = settings.LastOAuthAccessToken;
-            txtApiUrl.Text = settings.LastApiUrl;
-            txtConsumerKey.Text = settings.LastOAuthConsumerKey;
-            txtConsumerSecret.Text = settings.LastOAuthConsumerSecret;
-            txtTokenSecret.Text = settings.LastOAuthTokenSecret;
+            var settings = Settings.Default.ExtApiSettings;
+            if (settings != null)
+            {
+                txtAccessToken.Text = settings.LastOAuthAccessToken;
+                txtApiUrl.Text = settings.LastApiUrl;
+                txtConsumerKey.Text = settings.LastOAuthConsumerKey;
+                txtConsumerSecret.Text = settings.LastOAuthConsumerSecret;
+                txtTokenSecret.Text = settings.LastOAuthTokenSecret;
+
+                if (settings.Parameters != null)
+                    foreach (var param in settings.Parameters)
+                        lstParameters.Items.Add(param);
+            }
         }
 
         private void btnAddParameter_Click(object sender, EventArgs e)
@@ -75,13 +82,17 @@ namespace ExtApi.Tester
                     paramList.Add((ApiParameter)item);
 
             // Save used values for automatic population next time
-            var settings = Settings.Default;
+            if (Settings.Default.ExtApiSettings == null)
+                Settings.Default.ExtApiSettings = new ExtApiSettings();
+
+            var settings = Settings.Default.ExtApiSettings;
             settings.LastApiUrl = txtApiUrl.Text;
             settings.LastOAuthAccessToken = txtAccessToken.Text;
             settings.LastOAuthConsumerKey = txtConsumerKey.Text;
             settings.LastOAuthConsumerSecret = txtConsumerSecret.Text;
             settings.LastOAuthTokenSecret = txtTokenSecret.Text;
-            settings.Save();
+            settings.Parameters = paramList;
+            Settings.Default.Save();
 
             ExtApiCallResult result = null;
             var apiRunner = new ApiRunner();

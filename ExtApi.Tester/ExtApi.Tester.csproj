@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExtApiSettings.cs" />
     <Compile Include="fmMain.cs">
       <SubType>Form</SubType>
     </Compile>

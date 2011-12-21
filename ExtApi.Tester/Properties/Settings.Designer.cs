@@ -25,61 +25,12 @@ namespace ExtApi.Tester.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string LastApiUrl {
+        public global::ExtApi.Tester.ExtApiSettings ExtApiSettings {
             get {
-                return ((string)(this["LastApiUrl"]));
+                return ((global::ExtApi.Tester.ExtApiSettings)(this["ExtApiSettings"]));
             }
             set {
-                this["LastApiUrl"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string LastOAuthConsumerKey {
-            get {
-                return ((string)(this["LastOAuthConsumerKey"]));
-            }
-            set {
-                this["LastOAuthConsumerKey"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string LastOAuthConsumerSecret {
-            get {
-                return ((string)(this["LastOAuthConsumerSecret"]));
-            }
-            set {
-                this["LastOAuthConsumerSecret"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string LastOAuthAccessToken {
-            get {
-                return ((string)(this["LastOAuthAccessToken"]));
-            }
-            set {
-                this["LastOAuthAccessToken"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string LastOAuthTokenSecret {
-            get {
-                return ((string)(this["LastOAuthTokenSecret"]));
-            }
-            set {
-                this["LastOAuthTokenSecret"] = value;
+                this["ExtApiSettings"] = value;
             }
         }
     }
