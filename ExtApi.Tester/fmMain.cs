@@ -31,7 +31,7 @@ namespace ExtApi.Tester
                 lstParameters.Items.Add(editor.EditedParameter);
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnEditParam_Click(object sender, EventArgs e)
         {
             if (lstParameters.SelectedItem == null)
                 return;

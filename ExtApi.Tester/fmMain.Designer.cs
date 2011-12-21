@@ -47,7 +47,7 @@
             this.txtResults = new System.Windows.Forms.TextBox();
             this.btnExecute = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnEditParam = new System.Windows.Forms.Button();
             this.lblStatusCode = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -234,15 +234,15 @@
             this.label7.TabIndex = 9;
             this.label7.Text = "Result:";
             // 
-            // button1
+            // btnEditParam
             // 
-            this.button1.Location = new System.Drawing.Point(303, 102);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(65, 23);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "Edit";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnEditParam.Location = new System.Drawing.Point(303, 102);
+            this.btnEditParam.Name = "btnEditParam";
+            this.btnEditParam.Size = new System.Drawing.Size(65, 23);
+            this.btnEditParam.TabIndex = 4;
+            this.btnEditParam.Text = "Edit";
+            this.btnEditParam.UseVisualStyleBackColor = true;
+            this.btnEditParam.Click += new System.EventHandler(this.btnEditParam_Click);
             // 
             // lblStatusCode
             // 
@@ -258,7 +258,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(747, 492);
             this.Controls.Add(this.lblStatusCode);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnEditParam);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.btnExecute);
             this.Controls.Add(this.txtResults);
@@ -300,7 +300,7 @@
         private System.Windows.Forms.TextBox txtResults;
         private System.Windows.Forms.Button btnExecute;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnEditParam;
         private System.Windows.Forms.Label lblStatusCode;
     }
 }
