@@ -5,6 +5,7 @@ using System.Text;
 using System.Net;
 using System.IO;
 using System.Xml.Linq;
+using System.Xml;
 
 namespace ExtApi.Engine.Data
 {
@@ -52,6 +53,11 @@ namespace ExtApi.Engine.Data
             {
                 // Attempt to turn the response stream into an Linq-To-Xml document
                 try { return XDocument.Load(_responseStream); }
+                catch (XmlException)
+                {
+                    return null;
+                }
+
                 finally
                 {
                     // Reset the stream to the beginning
