@@ -138,7 +138,8 @@ namespace ExtApi.Tester
             if (result.XmlResponse != null)
                 txtResults.Text = result.XmlResponse.ToString();
             else
-                txtResults.Text = new StreamReader(result.ResponseStream).ReadToEnd();
+                // Assume it's JSON since it's not XML
+                txtResults.Text = JsonFormatter.PrettyPrint(new StreamReader(result.ResponseStream).ReadToEnd());
         }
 
         private void HandleApiCallException(Exception ex)
