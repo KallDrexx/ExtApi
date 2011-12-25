@@ -25,12 +25,13 @@ namespace ExtApi.Tester.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::ExtApi.Tester.ExtApiSettings ExtApiSettings {
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LastApiFile {
             get {
-                return ((global::ExtApi.Tester.ExtApiSettings)(this["ExtApiSettings"]));
+                return ((string)(this["LastApiFile"]));
             }
             set {
-                this["ExtApiSettings"] = value;
+                this["LastApiFile"] = value;
             }
         }
     }

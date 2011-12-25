@@ -51,13 +51,21 @@
             this.lblStatusCode = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.txtBuiltUrl = new System.Windows.Forms.TextBox();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveAPICallToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 24);
+            this.label1.Location = new System.Drawing.Point(16, 30);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(79, 13);
             this.label1.TabIndex = 0;
@@ -65,10 +73,11 @@
             // 
             // txtApiUrl
             // 
-            this.txtApiUrl.Location = new System.Drawing.Point(97, 21);
+            this.txtApiUrl.Location = new System.Drawing.Point(101, 27);
             this.txtApiUrl.Name = "txtApiUrl";
             this.txtApiUrl.Size = new System.Drawing.Size(394, 20);
             this.txtApiUrl.TabIndex = 1;
+            this.txtApiUrl.TextChanged += new System.EventHandler(this.DataModifiedEvent);
             // 
             // lstParameters
             // 
@@ -132,6 +141,7 @@
             this.txtConsumerSecret.Name = "txtConsumerSecret";
             this.txtConsumerSecret.Size = new System.Drawing.Size(214, 20);
             this.txtConsumerSecret.TabIndex = 8;
+            this.txtConsumerSecret.TextChanged += new System.EventHandler(this.DataModifiedEvent);
             // 
             // txtTokenSecret
             // 
@@ -140,6 +150,7 @@
             this.txtTokenSecret.Name = "txtTokenSecret";
             this.txtTokenSecret.Size = new System.Drawing.Size(214, 20);
             this.txtTokenSecret.TabIndex = 10;
+            this.txtTokenSecret.TextChanged += new System.EventHandler(this.DataModifiedEvent);
             // 
             // txtAccessToken
             // 
@@ -148,6 +159,7 @@
             this.txtAccessToken.Name = "txtAccessToken";
             this.txtAccessToken.Size = new System.Drawing.Size(214, 20);
             this.txtAccessToken.TabIndex = 9;
+            this.txtAccessToken.TextChanged += new System.EventHandler(this.DataModifiedEvent);
             // 
             // txtConsumerKey
             // 
@@ -156,6 +168,7 @@
             this.txtConsumerKey.Name = "txtConsumerKey";
             this.txtConsumerKey.Size = new System.Drawing.Size(214, 20);
             this.txtConsumerKey.TabIndex = 7;
+            this.txtConsumerKey.TextChanged += new System.EventHandler(this.DataModifiedEvent);
             // 
             // label6
             // 
@@ -271,6 +284,62 @@
             this.txtBuiltUrl.Size = new System.Drawing.Size(661, 20);
             this.txtBuiltUrl.TabIndex = 12;
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(747, 24);
+            this.menuStrip1.TabIndex = 15;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1,
+            this.saveAPICallToolStripMenuItem,
+            this.saveAsToolStripMenuItem,
+            this.openToolStripMenuItem,
+            this.exitToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // saveAPICallToolStripMenuItem
+            // 
+            this.saveAPICallToolStripMenuItem.Name = "saveAPICallToolStripMenuItem";
+            this.saveAPICallToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveAPICallToolStripMenuItem.Text = "Save";
+            this.saveAPICallToolStripMenuItem.Click += new System.EventHandler(this.saveAPICallToolStripMenuItem_Click);
+            // 
+            // saveAsToolStripMenuItem
+            // 
+            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveAsToolStripMenuItem.Text = "Save As...";
+            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
+            // 
+            // openToolStripMenuItem
+            // 
+            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openToolStripMenuItem.Text = "Open";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem1.Text = "New";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.newStripMenuItem1_Click);
+            // 
             // fmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -290,11 +359,16 @@
             this.Controls.Add(this.lstParameters);
             this.Controls.Add(this.txtApiUrl);
             this.Controls.Add(this.label1);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "fmMain";
             this.Text = "ExtApi Web Api Tester";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.fmMain_FormClosing);
             this.Load += new System.EventHandler(this.fmMain_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -325,5 +399,12 @@
         private System.Windows.Forms.Label lblStatusCode;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox txtBuiltUrl;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveAPICallToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
     }
 }
