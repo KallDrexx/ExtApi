@@ -242,9 +242,18 @@ namespace ExtApi.Tester
 
             // Save the settings as JSON
             string jsonString = JsonConvert.SerializeObject(settings);
-            var stream = File.CreateText(filename);
-            stream.Write(jsonString);
-            stream.Close();
+
+            try
+            {
+                var stream = File.CreateText(filename);
+                stream.Write(jsonString);
+            }
+
+            catch (IOException ex)
+            {
+                MessageBox.Show("An error occurred while saving the API call: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
             _dataModified = false;
             _currentFileName = filename;
@@ -257,8 +266,15 @@ namespace ExtApi.Tester
         private void OpenApiCall(string filename)
         {
             // Read the json from the selected file
-            var stream = File.OpenText(filename);
+            StreamReader stream;
             ExtApiSettings settings;
+
+            try { stream = File.OpenText(filename); }
+            catch (IOException ex)
+            {
+                MessageBox.Show("An error occurred while opening up the api call: " + ex.Message, "Error Opening Api", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
             try { settings = JsonConvert.DeserializeObject<ExtApiSettings>(stream.ReadToEnd()); }
             catch (JsonReaderException)
@@ -266,6 +282,7 @@ namespace ExtApi.Tester
                 MessageBox.Show("The selected file is not a valid saved API call", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+
             finally
             {
                 stream.Close();
