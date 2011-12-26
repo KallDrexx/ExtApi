@@ -266,6 +266,10 @@ namespace ExtApi.Tester
                 MessageBox.Show("The selected file is not a valid saved API call", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            finally
+            {
+                stream.Close();
+            }
 
             if (settings != null)
             {
