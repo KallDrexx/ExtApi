@@ -247,6 +247,7 @@ namespace ExtApi.Tester
             {
                 var stream = File.CreateText(filename);
                 stream.Write(jsonString);
+                stream.Close();
             }
 
             catch (IOException ex)
