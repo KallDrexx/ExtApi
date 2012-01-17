@@ -14,6 +14,7 @@ namespace ExtApi.Tester
         public string LastOAuthConsumerSecret { get; set; }
         public string LastOAuthAccessToken { get; set; }
         public string LastOAuthTokenSecret { get; set; }
+        public string WebAuthUsername { get; set; }
         public List<ApiParameter> Parameters { get; set; }
     }
 }

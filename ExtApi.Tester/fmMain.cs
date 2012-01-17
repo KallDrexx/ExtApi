@@ -89,7 +89,16 @@ namespace ExtApi.Tester
             ExtApiCallResult result = null;
             var apiRunner = new ApiRunner();
 
-            if (chkIncludeOAuth.Checked)
+            if (chkUseWebAuth.Checked)
+            {
+                try { result = apiRunner.ExecuteNtlmApiCall(txtApiUrl.Text, paramList, txtWebAuthUsername.Text, txtWebAuthPassword.Text); }
+                catch (UriFormatException ex)
+                {
+                    HandleApiCallException(ex);
+                    return;
+                }
+            }
+            else if (chkIncludeOAuth.Checked)
             {
                 // Create the token manager
                 var tokenManager = new InMemoryTokenManager();
@@ -135,6 +144,12 @@ namespace ExtApi.Tester
                 else
                     txtResults.Text = response;
             }
+        }
+
+        private void chkUseWindowsAuth_CheckedChanged(object sender, EventArgs e)
+        {
+            txtWebAuthPassword.Enabled = chkUseWebAuth.Checked;
+            txtWebAuthUsername.Enabled = chkUseWebAuth.Checked;
         }
 
         private void HandleApiCallException(Exception ex)
@@ -310,6 +325,7 @@ namespace ExtApi.Tester
             settings.LastOAuthConsumerSecret = txtConsumerSecret.Text;
             settings.LastOAuthTokenSecret = txtTokenSecret.Text;
             settings.Parameters = CreateParameterList();
+            settings.WebAuthUsername = txtWebAuthUsername.Text;
 
             return settings;
         }
@@ -333,6 +349,8 @@ namespace ExtApi.Tester
             txtConsumerSecret.Text = settings.LastOAuthConsumerSecret;
             txtTokenSecret.Text = settings.LastOAuthTokenSecret;
             chkIncludeOAuth.Checked = !string.IsNullOrWhiteSpace(settings.LastOAuthConsumerKey);
+            chkUseWebAuth.Checked = !string.IsNullOrWhiteSpace(settings.WebAuthUsername);
+            txtWebAuthUsername.Text = settings.WebAuthUsername;
 
             lstParameters.Items.Clear();
             if (settings.Parameters != null)

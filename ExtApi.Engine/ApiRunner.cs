@@ -87,6 +87,36 @@ namespace ExtApi.Engine
             };
         }
 
+        /// <summary>
+        /// Performs an API call using normal authentication
+        /// </summary>
+        /// <param name="apiUrl"></param>
+        /// <param name="parameters"></param>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public ExtApiCallResult ExecuteNtlmApiCall(string apiUrl, IList<ApiParameter> parameters, string username, string password)
+        {
+            var request = HttpWebRequest.Create(BuildGetUrl(apiUrl, parameters));
+            request.Method = WebRequestMethods.Http.Get;
+            request.Credentials = new NetworkCredential(username, password);
+
+            // Perform the web request
+            WebResponse response;
+            try { response = request.GetResponse(); }
+            catch (WebException ex)
+            {
+                return HandleWebException(ex);
+            }
+
+            return new ExtApiCallResult
+            {
+                StatusCode = HttpStatusCode.OK,
+                ResponseStream = response.GetResponseStream(),
+                FinalUrl = response.ResponseUri.AbsoluteUri
+            };
+        }
+
         private ExtApiCallResult HandleWebException(WebException ex)
         {
             var httpResponse = (HttpWebResponse)ex.Response;
