@@ -60,16 +60,21 @@
             this.label3 = new System.Windows.Forms.Label();
             this.chkIncludeOAuth = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.chkUseWebAuth = new System.Windows.Forms.CheckBox();
-            this.txtWebAuthUsername = new System.Windows.Forms.TextBox();
-            this.txtWebAuthPassword = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.txtWebAuthPassword = new System.Windows.Forms.TextBox();
+            this.txtWebAuthUsername = new System.Windows.Forms.TextBox();
+            this.chkUseWebAuth = new System.Windows.Forms.CheckBox();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.label12 = new System.Windows.Forms.Label();
+            this.radGetRequest = new System.Windows.Forms.RadioButton();
+            this.radPostRequest = new System.Windows.Forms.RadioButton();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -251,6 +256,7 @@
             // 
             // tabControl1
             // 
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Location = new System.Drawing.Point(395, 73);
@@ -381,24 +387,32 @@
             this.tabPage2.Text = "Basic Auth";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // chkUseWebAuth
+            // label11
             // 
-            this.chkUseWebAuth.AutoSize = true;
-            this.chkUseWebAuth.Location = new System.Drawing.Point(16, 13);
-            this.chkUseWebAuth.Name = "chkUseWebAuth";
-            this.chkUseWebAuth.Size = new System.Drawing.Size(99, 17);
-            this.chkUseWebAuth.TabIndex = 0;
-            this.chkUseWebAuth.Text = "Use Basic Auth";
-            this.chkUseWebAuth.UseVisualStyleBackColor = true;
-            this.chkUseWebAuth.CheckedChanged += new System.EventHandler(this.chkUseWindowsAuth_CheckedChanged);
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(74, 85);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(174, 13);
+            this.label11.TabIndex = 5;
+            this.label11.Text = "(Password is not saved in API calls)";
             // 
-            // txtWebAuthUsername
+            // label10
             // 
-            this.txtWebAuthUsername.Enabled = false;
-            this.txtWebAuthUsername.Location = new System.Drawing.Point(77, 36);
-            this.txtWebAuthUsername.Name = "txtWebAuthUsername";
-            this.txtWebAuthUsername.Size = new System.Drawing.Size(250, 20);
-            this.txtWebAuthUsername.TabIndex = 1;
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(13, 62);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(56, 13);
+            this.label10.TabIndex = 4;
+            this.label10.Text = "Password:";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(13, 36);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(58, 13);
+            this.label9.TabIndex = 3;
+            this.label9.Text = "Username:";
             // 
             // txtWebAuthPassword
             // 
@@ -411,32 +425,68 @@
             this.txtWebAuthPassword.TabIndex = 2;
             this.txtWebAuthPassword.UseSystemPasswordChar = true;
             // 
-            // label9
+            // txtWebAuthUsername
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(13, 36);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(58, 13);
-            this.label9.TabIndex = 3;
-            this.label9.Text = "Username:";
+            this.txtWebAuthUsername.Enabled = false;
+            this.txtWebAuthUsername.Location = new System.Drawing.Point(77, 36);
+            this.txtWebAuthUsername.Name = "txtWebAuthUsername";
+            this.txtWebAuthUsername.Size = new System.Drawing.Size(250, 20);
+            this.txtWebAuthUsername.TabIndex = 1;
             // 
-            // label10
+            // chkUseWebAuth
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(13, 62);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(56, 13);
-            this.label10.TabIndex = 4;
-            this.label10.Text = "Password:";
+            this.chkUseWebAuth.AutoSize = true;
+            this.chkUseWebAuth.Location = new System.Drawing.Point(16, 13);
+            this.chkUseWebAuth.Name = "chkUseWebAuth";
+            this.chkUseWebAuth.Size = new System.Drawing.Size(99, 17);
+            this.chkUseWebAuth.TabIndex = 0;
+            this.chkUseWebAuth.Text = "Use Basic Auth";
+            this.chkUseWebAuth.UseVisualStyleBackColor = true;
+            this.chkUseWebAuth.CheckedChanged += new System.EventHandler(this.chkUseWindowsAuth_CheckedChanged);
             // 
-            // label11
+            // tabPage3
             // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(74, 85);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(174, 13);
-            this.label11.TabIndex = 5;
-            this.label11.Text = "(Password is not saved in API calls)";
+            this.tabPage3.Controls.Add(this.radPostRequest);
+            this.tabPage3.Controls.Add(this.radGetRequest);
+            this.tabPage3.Controls.Add(this.label12);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(333, 187);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Method";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(7, 17);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(89, 13);
+            this.label12.TabIndex = 0;
+            this.label12.Text = "Request Method:";
+            // 
+            // radGetRequest
+            // 
+            this.radGetRequest.AutoSize = true;
+            this.radGetRequest.Checked = true;
+            this.radGetRequest.Location = new System.Drawing.Point(102, 17);
+            this.radGetRequest.Name = "radGetRequest";
+            this.radGetRequest.Size = new System.Drawing.Size(47, 17);
+            this.radGetRequest.TabIndex = 1;
+            this.radGetRequest.TabStop = true;
+            this.radGetRequest.Text = "GET";
+            this.radGetRequest.UseVisualStyleBackColor = true;
+            // 
+            // radPostRequest
+            // 
+            this.radPostRequest.AutoSize = true;
+            this.radPostRequest.Location = new System.Drawing.Point(102, 36);
+            this.radPostRequest.Name = "radPostRequest";
+            this.radPostRequest.Size = new System.Drawing.Size(54, 17);
+            this.radPostRequest.TabIndex = 2;
+            this.radPostRequest.Text = "POST";
+            this.radPostRequest.UseVisualStyleBackColor = true;
             // 
             // fmMain
             // 
@@ -470,6 +520,8 @@
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -515,5 +567,9 @@
         private System.Windows.Forms.TextBox txtWebAuthPassword;
         private System.Windows.Forms.TextBox txtWebAuthUsername;
         private System.Windows.Forms.CheckBox chkUseWebAuth;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.RadioButton radPostRequest;
+        private System.Windows.Forms.RadioButton radGetRequest;
+        private System.Windows.Forms.Label label12;
     }
 }

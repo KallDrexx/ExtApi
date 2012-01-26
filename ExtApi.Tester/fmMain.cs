@@ -83,6 +83,9 @@ namespace ExtApi.Tester
             txtResults.Text = string.Empty;
             txtBuiltUrl.Text = string.Empty;
 
+            // Get the request method
+            RequestMethod selectedMethod = GetRequestMethod();
+
             // Create parameter list
             var paramList = CreateParameterList();
 
@@ -119,7 +122,7 @@ namespace ExtApi.Tester
 
             else
             {
-                try { result = apiRunner.ExecuteApiCall(txtApiUrl.Text, paramList); }
+                try { result = apiRunner.ExecuteApiCall(txtApiUrl.Text, paramList, selectedMethod); }
                 catch (UriFormatException ex)
                 {
                     HandleApiCallException(ex);
@@ -326,6 +329,7 @@ namespace ExtApi.Tester
             settings.LastOAuthTokenSecret = txtTokenSecret.Text;
             settings.Parameters = CreateParameterList();
             settings.WebAuthUsername = txtWebAuthUsername.Text;
+            settings.RequestMethod = GetRequestMethod();
 
             return settings;
         }
@@ -352,10 +356,25 @@ namespace ExtApi.Tester
             chkUseWebAuth.Checked = !string.IsNullOrWhiteSpace(settings.WebAuthUsername);
             txtWebAuthUsername.Text = settings.WebAuthUsername;
 
+            radGetRequest.Checked = (settings.RequestMethod == RequestMethod.Get);
+            radPostRequest.Checked = (settings.RequestMethod == RequestMethod.Post);
+
             lstParameters.Items.Clear();
             if (settings.Parameters != null)
                 foreach (var param in settings.Parameters)
                     lstParameters.Items.Add(param);
+        }
+
+        private RequestMethod GetRequestMethod()
+        {
+            RequestMethod selectedMethod;
+            if (radGetRequest.Checked)
+                selectedMethod = RequestMethod.Get;
+            else if (radPostRequest.Checked)
+                selectedMethod = RequestMethod.Post;
+            else
+                throw new InvalidOperationException("No request method selected");
+            return selectedMethod;
         }
     }
 }

@@ -66,10 +66,16 @@ namespace ExtApi.Engine
         /// <param name="apiUrl"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public ExtApiCallResult ExecuteApiCall(string apiUrl, IList<ApiParameter> parameters)
+        public ExtApiCallResult ExecuteApiCall(string apiUrl, IList<ApiParameter> parameters, RequestMethod method)
         {
             var request = HttpWebRequest.Create(BuildGetUrl(apiUrl, parameters));
-            request.Method = WebRequestMethods.Http.Get;
+            if (method == RequestMethod.Get)
+                request.Method = WebRequestMethods.Http.Get;
+            else if (method == RequestMethod.Post)
+                request.Method = WebRequestMethods.Http.Post;
+            else
+                throw new NotSupportedException(
+                    string.Format("The request method of {0} is not supported", method.ToString()));
 
             // Perform the web request
             WebResponse response;

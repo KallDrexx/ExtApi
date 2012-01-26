@@ -49,6 +49,7 @@
     <Compile Include="Data\ExtApiCallResult.cs" />
     <Compile Include="InMemoryTokenManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RequestMethod.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
