@@ -10,16 +10,12 @@ using System.Web;
 using System.Net;
 using System.IO;
 using RestSharp;
+using RestSharp.Authenticators;
 
 namespace ExtApi.Engine
 {
     public class ApiRunner
     {
-        /// <summary>
-        /// Gets or sets the DotNetOpenAuth token manager to use for OAuth API call
-        /// </summary>
-        public IConsumerTokenManager OAuthTokenManager { get; set; }
-
         /// <summary>
         /// Performs an OAuthed api call with the specified access token
         /// </summary>
@@ -28,37 +24,19 @@ namespace ExtApi.Engine
         /// <param name="accessToken"></param>
         /// <returns></returns>
         /// <exception cref="InvalidOperationException">Thrown when no token manager has been specified</exception>
-        public ExtApiCallResult ExecuteOAuthApiCall(string apiUrl, IList<ApiParameter> parameters, string accessToken)
+        public ExtApiCallResult ExecuteOAuthApiCall(string apiUrl, IList<ApiParameter> parameters, RequestMethod method,
+                                                    string consumerKey, string consumerSecret, string accessToken, string tokenSecret)
         {
-            if (OAuthTokenManager == null)
-                throw new InvalidOperationException("Cannot perform an OAuth API call without a valid OAuth token manager");
+            var client = new RestClient(apiUrl);
+            client.Authenticator = OAuth1Authenticator.ForAccessToken(consumerKey, consumerSecret, accessToken, tokenSecret);
+            var request = new RestRequest();
+            request.Method = ConvertRequestMethod(method);          
 
-            // Setup OAuth Request
-            var serviceProviderDesc = new ServiceProviderDescription
-            {
-                ProtocolVersion = ProtocolVersion.V10a,
-                TamperProtectionElements = new ITamperProtectionChannelBindingElement[] { new HmacSha1SigningBindingElement() }
-            };
+            foreach (var param in parameters)
+                request.Parameters.Add(new Parameter { Name = param.Name, Value = param.UnencodedValue, Type = ParameterType.GetOrPost });
 
-            var consumer = new WebConsumer(serviceProviderDesc, OAuthTokenManager);
-            var endpoint = new MessageReceivingEndpoint(BuildGetUrl(apiUrl, parameters), HttpDeliveryMethods.GetRequest);
-            var request = consumer.PrepareAuthorizedRequest(endpoint, accessToken);
-
-            // Perform the web request
-            WebResponse response;
-            try { response = request.GetResponse(); }
-            catch (WebException ex)
-            {
-                return HandleWebException(ex);
-            }
-
-            // Call was successful
-            return new ExtApiCallResult
-            {
-                StatusCode = HttpStatusCode.OK,
-                ResponseStream = response.GetResponseStream(),
-                FinalUrl = response.ResponseUri.AbsoluteUri
-            };
+            // Execute the request
+            return CreateExtApiCallResult(client.Execute(request));
         }
 
         /// <summary>
@@ -71,14 +49,7 @@ namespace ExtApi.Engine
         {
             var client = new RestClient(apiUrl);
             var request = new RestRequest();
-
-            if (method == RequestMethod.Get)
-                request.Method = Method.GET;
-            else if (method == RequestMethod.Post)
-                request.Method = Method.POST;
-            else
-                throw new NotSupportedException(
-                    string.Format("The request method of {0} is not supported", method.ToString()));
+            request.Method = ConvertRequestMethod(method);            
 
             // Add all the parameters to the request
             foreach (var param in parameters)
@@ -88,10 +59,13 @@ namespace ExtApi.Engine
             if (!string.IsNullOrWhiteSpace(username))
                 client.Authenticator = new HttpBasicAuthenticator(username, password);
 
-            // Perform the web request
-            var response = client.Execute(request);
+            // Execute the request
+            return CreateExtApiCallResult(client.Execute(request));
+        }
 
-            // Put the response content into a memorystream
+        protected ExtApiCallResult CreateExtApiCallResult(RestResponse response)
+        {
+            // Put the response content into a memorystream for reading
             var stream = new MemoryStream();
             var bytes = new System.Text.ASCIIEncoding().GetBytes(response.Content);
             stream.Write(bytes, 0, bytes.Length);
@@ -106,7 +80,7 @@ namespace ExtApi.Engine
             };
         }
 
-        private ExtApiCallResult HandleWebException(WebException ex)
+        protected ExtApiCallResult HandleWebException(WebException ex)
         {
             var httpResponse = (HttpWebResponse)ex.Response;
 
@@ -161,6 +135,17 @@ namespace ExtApi.Engine
             }
 
             return resultingUrl.ToString();
+        }
+
+        protected Method ConvertRequestMethod(RequestMethod method)
+        {
+            if (method == RequestMethod.Get)
+                return Method.GET;
+            else if (method == RequestMethod.Post)
+                return Method.POST;
+            else
+                throw new NotSupportedException(
+                    string.Format("The request method of {0} is not supported", method.ToString()));
         }
     }
 }

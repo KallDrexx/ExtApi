@@ -101,9 +101,11 @@ namespace ExtApi.Tester
                 tokenManager.AddKeyAndSecret(txtAccessToken.Text, txtTokenSecret.Text);
 
                 // Call the api
-                apiRunner.OAuthTokenManager = tokenManager;
-
-                try { result = apiRunner.ExecuteOAuthApiCall(txtApiUrl.Text, paramList, txtAccessToken.Text); }
+                try 
+                {
+                    result = apiRunner.ExecuteOAuthApiCall(txtApiUrl.Text, paramList, GetRequestMethod(), txtConsumerKey.Text,
+                                                            txtConsumerSecret.Text, txtAccessToken.Text, txtTokenSecret.Text);
+                }
                 catch (UriFormatException ex)
                 {
                     HandleApiCallException(ex);
