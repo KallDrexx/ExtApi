@@ -92,16 +92,7 @@ namespace ExtApi.Tester
             ExtApiCallResult result = null;
             var apiRunner = new ApiRunner();
 
-            if (chkUseWebAuth.Checked)
-            {
-                try { result = apiRunner.ExecuteNtlmApiCall(txtApiUrl.Text, paramList, txtWebAuthUsername.Text, txtWebAuthPassword.Text); }
-                catch (UriFormatException ex)
-                {
-                    HandleApiCallException(ex);
-                    return;
-                }
-            }
-            else if (chkIncludeOAuth.Checked)
+            if (chkIncludeOAuth.Checked)
             {
                 // Create the token manager
                 var tokenManager = new InMemoryTokenManager();
@@ -122,7 +113,10 @@ namespace ExtApi.Tester
 
             else
             {
-                try { result = apiRunner.ExecuteApiCall(txtApiUrl.Text, paramList, selectedMethod); }
+                string username = chkUseWebAuth.Checked ? txtWebAuthUsername.Text : string.Empty;
+                string password = chkUseWebAuth.Checked ? txtWebAuthPassword.Text : string.Empty;
+
+                try { result = apiRunner.ExecuteApiCall(txtApiUrl.Text, paramList, selectedMethod, username, password); }
                 catch (UriFormatException ex)
                 {
                     HandleApiCallException(ex);
@@ -147,6 +141,9 @@ namespace ExtApi.Tester
                 else
                     txtResults.Text = response;
             }
+
+            // Make sure we don't leak the stream
+            result.ResponseStream.Dispose();
         }
 
         private void chkUseWindowsAuth_CheckedChanged(object sender, EventArgs e)

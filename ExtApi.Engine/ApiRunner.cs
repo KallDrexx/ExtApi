@@ -9,6 +9,7 @@ using DotNetOpenAuth.Messaging;
 using System.Web;
 using System.Net;
 using System.IO;
+using RestSharp;
 
 namespace ExtApi.Engine
 {
@@ -66,59 +67,41 @@ namespace ExtApi.Engine
         /// <param name="apiUrl"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public ExtApiCallResult ExecuteApiCall(string apiUrl, IList<ApiParameter> parameters, RequestMethod method)
+        public ExtApiCallResult ExecuteApiCall(string apiUrl, IList<ApiParameter> parameters, RequestMethod method, string username = "", string password = "")
         {
-            var request = HttpWebRequest.Create(BuildGetUrl(apiUrl, parameters));
+            var client = new RestClient(apiUrl);
+            var request = new RestRequest();
+
             if (method == RequestMethod.Get)
-                request.Method = WebRequestMethods.Http.Get;
+                request.Method = Method.GET;
             else if (method == RequestMethod.Post)
-                request.Method = WebRequestMethods.Http.Post;
+                request.Method = Method.POST;
             else
                 throw new NotSupportedException(
                     string.Format("The request method of {0} is not supported", method.ToString()));
 
+            // Add all the parameters to the request
+            foreach (var param in parameters)
+                request.Parameters.Add(new Parameter { Name = param.Name, Value = param.UnencodedValue, Type = ParameterType.GetOrPost });
+
+            // Setup authentication
+            if (!string.IsNullOrWhiteSpace(username))
+                client.Authenticator = new HttpBasicAuthenticator(username, password);
+
             // Perform the web request
-            WebResponse response;
-            try { response = request.GetResponse(); }
-            catch (WebException ex)
-            {
-                return HandleWebException(ex);
-            }
+            var response = client.Execute(request);
+
+            // Put the response content into a memorystream
+            var stream = new MemoryStream();
+            var bytes = new System.Text.ASCIIEncoding().GetBytes(response.Content);
+            stream.Write(bytes, 0, bytes.Length);
+            stream.Flush();
+            stream.Position = 0;
 
             return new ExtApiCallResult
             {
-                StatusCode = HttpStatusCode.OK,
-                ResponseStream = response.GetResponseStream(),
-                FinalUrl = response.ResponseUri.AbsoluteUri
-            };
-        }
-
-        /// <summary>
-        /// Performs an API call using normal authentication
-        /// </summary>
-        /// <param name="apiUrl"></param>
-        /// <param name="parameters"></param>
-        /// <param name="username"></param>
-        /// <param name="password"></param>
-        /// <returns></returns>
-        public ExtApiCallResult ExecuteNtlmApiCall(string apiUrl, IList<ApiParameter> parameters, string username, string password)
-        {
-            var request = HttpWebRequest.Create(BuildGetUrl(apiUrl, parameters));
-            request.Method = WebRequestMethods.Http.Get;
-            request.Credentials = new NetworkCredential(username, password);
-
-            // Perform the web request
-            WebResponse response;
-            try { response = request.GetResponse(); }
-            catch (WebException ex)
-            {
-                return HandleWebException(ex);
-            }
-
-            return new ExtApiCallResult
-            {
-                StatusCode = HttpStatusCode.OK,
-                ResponseStream = response.GetResponseStream(),
+                StatusCode = response.StatusCode,
+                ResponseStream = stream,
                 FinalUrl = response.ResponseUri.AbsoluteUri
             };
         }
