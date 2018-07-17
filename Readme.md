@@ -10,4 +10,4 @@ ExtApi Tester
 The ExtApi tester is the GUI tool that allows you to easily test making calls to a web API.  The ExtApi Tester application simplifies all aspects of calling
 an API, including support for testing calls to OAuth API's.
 
-![ExtApi Tester Screenshot](http://dl.dropbox.com/u/6753359/ExtApi-Screenshot.png)
+![ExtApi Tester Screenshot](https://i.imgur.com/JNj4z9b.png)
